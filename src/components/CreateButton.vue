@@ -1,6 +1,6 @@
 <template>
 
-   <router-link  to="/create-from">Create </router-link>
+   <router-link  class="create-btn" to="/create-from">Create </router-link>
 
 </template>
 
@@ -11,5 +11,11 @@ export default {
 </script>
 
 <style>
+
+.create-btn {
+  position: fixed;
+  right: 48px;
+  bottom: 64px;
+}
 
 </style>
