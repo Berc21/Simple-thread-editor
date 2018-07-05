@@ -1,6 +1,6 @@
 <template>
 
-   <router-link  class="create-btn" to="/create-from">Create </router-link>
+   <router-link  class="create-btn" to="/create-from">+ </router-link>
 
 </template>
 
@@ -10,12 +10,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
-.create-btn {
-  position: fixed;
-  right: 48px;
-  bottom: 64px;
-}
+
 
 </style>
