@@ -1,6 +1,6 @@
 <template>
 
-   <router-link  class="create-btn" to="/create-from">+ </router-link>
+   <router-link class="create-btn" to="/create-thread">+ </router-link>
 
 </template>
 
@@ -19,10 +19,9 @@ $btn-color: #fff;
   position: fixed;
   right: 48px;
   bottom: 64px;
-  font-size: 64px;
+  font-size: 32px;
   border-radius: 50%;
-  width: 92px;
-  height: auto;
+  padding: 16px;
   background-color: $btn-bg-color;
   color: $btn-color;
   text-decoration: none;

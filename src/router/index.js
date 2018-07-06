@@ -9,7 +9,6 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-
       path: '/create-thread',
       name: 'ThreadEditor',
       component: ThreadEditor
