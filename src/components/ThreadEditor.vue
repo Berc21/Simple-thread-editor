@@ -12,9 +12,13 @@
           <input class="tinput-wrapper__category" type="text" v-model="category" placeholder="Category">
         </div>
 
+      <div class="composer-wrapper">
+        <button @click="makeBold">Bold </button>
+      </div>
+
     </header>
     <main class="teditor-main">
-        <textarea v-model="teditor" class="teditor-main__text-area" name="" placeholder=
+        <textarea v-model="teditor" ref="teditor" class="teditor-main__text-area" @select="selectText" placeholder=
         "You can type here but before that let me give you some tips.If you are asking a question about a particular lesson or quiz, please provide a link.Please include any resources that may help a mentor answer your post. This can include code snippets, github repos, images, or other links.Use Markdown, BBCode, or HTML to format. Drag or paste images.">
        </textarea >
       <section class="teditor-main__text-preview" v-html="htmlPreview">
@@ -33,30 +37,54 @@
 </template>
 
 <script>
-import DummyContent from '@/components/DummyContent'
+import DummyContent from "@/components/DummyContent";
 import marked from "marked";
 export default {
   name: "ThreadEditor",
   components: {
-    DummyContent,
+    DummyContent
   },
   data() {
     return {
       teditor: "",
-      title: '',
-      category: '',
+      title: "",
+      category: "",
       thread: {
         id: 1,
         title: "",
         body: ""
-      }
+      },
+      selectedText: ""
     };
   },
   methods: {
     createThread() {
       this.thread.title = this.title;
       this.thread.body = this.htmlPreview;
-      this.$router.push({ name: 'SingleThread', params: { title: this.thread.title,  id: this.thread.id }})
+      this.$router.push({
+        name: "SingleThread",
+        params: { title: this.thread.title, id: this.thread.id }
+      });
+    },
+    selectText() {
+      this.end = event.target.selectionEnd;
+      this.start = event.target.selectionStart;
+      this.val = event.target.value;
+
+      this.selectedText = this.val.substring(this.start, this.end);
+
+    },
+    makeBold() {
+      let regeX = new RegExp(/(^\*\*|\*\*$)/, "gm");
+
+
+      if( regeX.test(this.selectedText) ) {
+          this.teditor = this.val.replace(this.selectedText, this.selectedText.replace(regeX, ''));
+
+      } else {
+          this.teditor = this.val.replace(this.selectedText, `**${this.selectedText}**`);
+      }
+
     }
   },
   computed: {
@@ -72,11 +100,11 @@ export default {
         smartypants: false
       });
 
-      return marked(this.teditor)
+      return marked(this.teditor);
     },
     warnIt() {
-      return this.htmlPreview.includes("</h1>")
-      }
+      return this.htmlPreview.includes("</h1>");
+    }
   }
 };
 </script>
