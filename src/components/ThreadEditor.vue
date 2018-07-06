@@ -1,10 +1,15 @@
 <template>
+
+ <div>
+   <dummy-content></dummy-content>
+
   <section class="teditor">
+
     <header class="teditor-composer">
       <h3 class="teditor-composer__heading">Create a New Thread</h3>
       <div class="tinput-wrapper">
-          <input class="tinput-wrapper__title" type="text" placeholder="Type a title">
-          <input class="tinput-wrapper__category" type="text" placeholder="Category">
+          <input class="tinput-wrapper__title" type="text" v-model="title" placeholder="Type a title">
+          <input class="tinput-wrapper__category" type="text" v-model="category" placeholder="Category">
         </div>
 
     </header>
@@ -17,25 +22,42 @@
     </section>
     </main>
     <footer class="teditor-footer">
-        <button class="teditor-footer__btn teditor-footer__btn--blue">Create</button>
+        <button class="teditor-footer__btn teditor-footer__btn--blue" @click="createThread">Create</button>
         <button class="teditor-footer__btn">Cancel</button>
 
         <span style="padding: 8px; background-color: yellow; display:inline-block;" v-show="warnIt"> Don't use H1 for subtitles for better SEO experience  </span>
     </footer>
 
-
-
   </section>
+ </div>
 </template>
 
 <script>
+import DummyContent from '@/components/DummyContent'
 import marked from "marked";
 export default {
   name: "ThreadEditor",
+  components: {
+    DummyContent,
+  },
   data() {
     return {
-      teditor: ""
+      teditor: "",
+      title: '',
+      category: '',
+      thread: {
+        id: 1,
+        title: "",
+        body: ""
+      }
     };
+  },
+  methods: {
+    createThread() {
+      this.thread.title = this.title;
+      this.thread.body = this.htmlPreview;
+      this.$router.push({ name: 'SingleThread', params: { title: this.thread.title,  id: this.thread.id }})
+    }
   },
   computed: {
     htmlPreview() {

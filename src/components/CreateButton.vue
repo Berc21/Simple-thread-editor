@@ -1,6 +1,10 @@
 <template>
+<div>
+    Click button below to create a new thread
+  <router-link class="create-btn" to="/create-thread">+ </router-link>
+</div>
 
-   <router-link class="create-btn" to="/create-thread">+ </router-link>
+
 
 </template>
 
