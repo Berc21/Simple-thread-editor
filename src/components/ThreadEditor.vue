@@ -14,7 +14,7 @@
 
       <div class="composer-wrapper">
         <button @click="makeBold">Bold </button>
-
+          <button @click="strike">Strike </button>
       </div>
 
     </header>
@@ -102,6 +102,32 @@ export default {
         });
       }
     },
+    strike() {
+      let regeX = new RegExp(/(^\~\~|\~\~$)/, "gm");
+      if (regeX.test(this.selectedText)) {
+        this.teditor = this.val.replace(
+          this.selectedText,
+          this.selectedText.replace(regeX, "")
+        );
+
+        this.$nextTick(() => {
+          let textArea = this.$refs.teditor;
+          textArea.focus();
+          textArea.setSelectionRange(this.start, this.end);
+        });
+      } else {
+        this.teditor = this.val.replace(
+          this.selectedText,
+          `~~${this.selectedText}~~`
+        );
+
+        this.$nextTick(() => {
+          let textArea = this.$refs.teditor;
+          textArea.focus();
+          textArea.setSelectionRange(this.start, this.end + 4);
+        });
+      }
+    }
   },
   computed: {
     htmlPreview() {
