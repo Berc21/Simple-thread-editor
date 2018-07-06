@@ -14,6 +14,7 @@
 
       <div class="composer-wrapper">
         <button @click="makeBold">Bold </button>
+
       </div>
 
     </header>
@@ -49,6 +50,8 @@ export default {
       teditor: "",
       title: "",
       category: "",
+      start: "",
+      end: "",
       thread: {
         id: 1,
         title: "",
@@ -72,20 +75,33 @@ export default {
       this.val = event.target.value;
 
       this.selectedText = this.val.substring(this.start, this.end);
-
     },
     makeBold() {
       let regeX = new RegExp(/(^\*\*|\*\*$)/, "gm");
+      if (regeX.test(this.selectedText)) {
+        this.teditor = this.val.replace(
+          this.selectedText,
+          this.selectedText.replace(regeX, "")
+        );
 
-
-      if( regeX.test(this.selectedText) ) {
-          this.teditor = this.val.replace(this.selectedText, this.selectedText.replace(regeX, ''));
-
+        this.$nextTick(() => {
+          let textArea = this.$refs.teditor;
+          textArea.focus();
+          textArea.setSelectionRange(this.start, this.end);
+        });
       } else {
-          this.teditor = this.val.replace(this.selectedText, `**${this.selectedText}**`);
-      }
+        this.teditor = this.val.replace(
+          this.selectedText,
+          `**${this.selectedText}**`
+        );
 
-    }
+        this.$nextTick(() => {
+          let textArea = this.$refs.teditor;
+          textArea.focus();
+          textArea.setSelectionRange(this.start, this.end + 4);
+        });
+      }
+    },
   },
   computed: {
     htmlPreview() {
