@@ -83,13 +83,47 @@ export default {
 @import 'https://fonts.googleapis.com/css?family=Roboto';
 
 $h1 : 40px;
+$h2 : 36px;
+$h3 : 32px;
+$h4 : 28px;
+$h5 : 24px;
+$h6 : 20px;
 html {
   font-family: 'Roboto', sans-serif;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 8px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
 }
 
 h1 {
   font-size: $h1;
 }
+h2 {
+  font-size: $h2;
+}
+h3 {
+  font-size: $h3;
+}
+h4 {
+  font-size: $h4;
+}
+h5 {
+  font-size: $h5;
+}
+h6 {
+  font-size: $h6;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
 
 .top-header {
   padding: 24px;

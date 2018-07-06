@@ -1,7 +1,7 @@
 <template>
   <section class="teditor">
     <header class="teditor-composer">
-      <h3 class="teditor-composer__heading">Ask a New Question</h3>
+      <h3 class="teditor-composer__heading">Create a New Thread</h3>
       <div class="tinput-wrapper">
           <input class="tinput-wrapper__title" type="text" placeholder="Type a title">
           <input class="tinput-wrapper__category" type="text" placeholder="Category">
@@ -12,22 +12,49 @@
         <textarea v-model="teditor" class="teditor-main__text-area" name="" placeholder=
         "You can type here but before that let me give you some tips.If you are asking a question about a particular lesson or quiz, please provide a link.Please include any resources that may help a mentor answer your post. This can include code snippets, github repos, images, or other links.Use Markdown, BBCode, or HTML to format. Drag or paste images.">
        </textarea >
-      <section class="teditor-main__text-preview">
-        <p>You can type here but before that let me give you some tips.If you are asking a question about a particular lesson or quiz, please provide a link.Please include any resources that may help a mentor answer your post. This can include code snippets, github repos, images, or other links.Use Markdown, BBCode, or HTML to format. Drag or paste images</p>
+      <section class="teditor-main__text-preview" v-html="htmlPreview">
+
     </section>
     </main>
     <footer class="teditor-footer">
         <button class="teditor-footer__btn teditor-footer__btn--blue">Create</button>
         <button class="teditor-footer__btn">Cancel</button>
+
+        <span style="padding: 8px; background-color: yellow; display:inline-block;" v-show="warnIt"> Don't use H1 for subtitles for better SEO experience  </span>
     </footer>
+
+
+
   </section>
 </template>
 
 <script>
+import marked from "marked";
 export default {
   name: "ThreadEditor",
   data() {
-    return {};
+    return {
+      teditor: ""
+    };
+  },
+  computed: {
+    htmlPreview() {
+      marked.setOptions({
+        renderer: new marked.Renderer(),
+        gfm: true,
+        tables: true,
+        breaks: true,
+        pedantic: false,
+        sanitize: true,
+        smartLists: true,
+        smartypants: false
+      });
+
+      return marked(this.teditor)
+    },
+    warnIt() {
+      return this.htmlPreview.includes("</h1>")
+      }
   }
 };
 </script>
@@ -70,7 +97,7 @@ textarea:focus {
 }
 
 .tinput-wrapper {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   width: 50%;
   min-height: 40px;
   display: flex;
