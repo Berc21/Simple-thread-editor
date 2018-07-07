@@ -15,6 +15,7 @@
       <div class="composer-wrapper">
         <button @click="makeBold">Bold </button>
           <button @click="strike">Strike </button>
+          <button @click="emphasize" >Emphasize</button>
       </div>
 
     </header>
@@ -101,6 +102,7 @@ export default {
           textArea.setSelectionRange(this.start, this.end + 4);
         });
       }
+
     },
     strike() {
       let regeX = new RegExp(/(^\~\~|\~\~$)/, "gm");
@@ -125,6 +127,32 @@ export default {
           let textArea = this.$refs.teditor;
           textArea.focus();
           textArea.setSelectionRange(this.start, this.end + 4);
+        });
+      }
+    },
+    emphasize() {
+       let regeX = new RegExp(/(^\_|\_$)/, "gm");
+        if (regeX.test(this.selectedText)) {
+        this.teditor = this.val.replace(
+          this.selectedText,
+          this.selectedText.replace(regeX, "")
+        );
+        this.$nextTick(() => {
+          let textArea = this.$refs.teditor;
+          textArea.focus();
+          textArea.setSelectionRange(this.start, this.end);
+        });
+
+    }else {
+        this.teditor = this.val.replace(
+          this.selectedText,
+          `_${this.selectedText}_`
+        );
+
+        this.$nextTick(() => {
+          let textArea = this.$refs.teditor;
+          textArea.focus();
+          textArea.setSelectionRange(this.start, this.end + 2);
         });
       }
     }
@@ -153,6 +181,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.drag {
+
+}
 input[type="text"],
 textarea {
   transition: all 0.3s ease-in-out;
@@ -165,6 +196,7 @@ textarea:focus {
 }
 
 .teditor {
+
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   padding: 8px 16px;
   height: 560px;
@@ -177,6 +209,7 @@ textarea:focus {
   left: calc(50% - 590px);
   z-index: 4;
   background: white;
+  resize: vertical;
 }
 
 .teditor-composer {
